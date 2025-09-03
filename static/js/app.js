@@ -83,7 +83,7 @@ app.run(["$rootScope", "$location", "$timeout", function($rootScope, $location, 
 app.controller("appCtrl", function ($scope, $http) {
 })
 app.controller("productosCtrl", function ($scope, $http) {
-    $(document).on("submit", "#frmProducto", function (event){
+    $(document).on("submit", "#frmProducto", function (event) {
         event.preventDefault()
 
         $.post("/producto", {
@@ -133,4 +133,5 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     activeMenuOption(location.hash)
 })
+
 

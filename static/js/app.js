@@ -83,8 +83,8 @@ app.run(["$rootScope", "$location", "$timeout", function($rootScope, $location, 
 app.controller("appCtrl", function ($scope, $http) {
 })
 app.controller("productosCtrl", function ($scope, $http) {
-    function buscarProductos(){
-        $.get("/tbodyProductos", function ($scope, $http){
+    function buscarProductos() {
+        $.get("/tbodyProductos", function (trsHTML) {
             $("#tbodyProductos").html(trsHTML)
         })
     }
@@ -140,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     activeMenuOption(location.hash)
 })
+
 
 
 

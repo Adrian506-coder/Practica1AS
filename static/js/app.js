@@ -90,6 +90,20 @@ app.controller("productosCtrl", function ($scope, $http) {
     }
 
     buscarProductos()
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true
+
+    var pusher = new Pusher("1007852abe277cd3e121", {
+      cluster: "us2"
+    })
+
+    var channel = pusher.subscribe("canalProductos")
+    channel.bind("eventoProductos", function(data) {
+      //alert(JSON.stringify(data))
+        buscarProductos()
+    })
+    
     $(document).on("submit", "#frmProducto", function (event) {
         event.preventDefault()
 
@@ -140,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     activeMenuOption(location.hash)
 })
+
 
 
 

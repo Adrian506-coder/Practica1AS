@@ -19,8 +19,6 @@ app.secret_key = "Test12345"
 CORS(app)
 
 con = mysql.connector.connect(
-    pool_name="my_pool",
-    pool_size=5,
     host="185.232.14.52",
     database="u760464709_23005256_bd",
     user="u760464709_23005256_usr",
@@ -678,5 +676,6 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 

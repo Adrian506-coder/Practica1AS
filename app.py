@@ -349,7 +349,8 @@ def clientes():
 def tbodyClientes():
     try:
         if not con.is_connected():
-        con.reconnect()
+            con.reconnect()
+        
         cursor = con.cursor(dictionary=True)
 
         sql = """
@@ -373,7 +374,7 @@ def tbodyClientes():
         if cursor:
             cursor.close()
         if con and con.is_connected():
-            con.close()
+            con.close()    
 
 
 @app.route("/clientes/buscar", methods=["GET"])
@@ -676,7 +677,3 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
-
-
-
-

@@ -18,7 +18,7 @@ app            = Flask(__name__)
 app.secret_key = "Test12345"
 CORS(app)
 
-con_pool = mysql.connector.pooling.MySQLConnectionPool(
+con = mysql.connector.connect(
     pool_name="my_pool",
     pool_size=5,
     host="185.232.14.52",
@@ -93,14 +93,26 @@ def login(fun):
 
 @app.route("/")
 def landingPage():
+    if not con.is_connected():
+        con.reconnect()
+
+    con.close()
     return render_template("landing-page.html")
 
 @app.route("/dashboard")
 def dashboard():
+    if not con.is_connected():
+        con.reconnect()
+
+    con.close()
     return render_template("dashboard.html")
 
 @app.route("/login")
 def appLogin():
+    if not con.is_connected():
+        con.reconnect()
+
+    con.close()
     return render_template("login.html")
     # return "<h5>Hola, soy la view app</h5>"
 
@@ -114,10 +126,11 @@ def fechaHora():
 # Usar cuando solo se quiera usar CORS en rutas específicas
 # @cross_origin()
 def iniciarSesion():
+    if not con.is_connected():
+        con.reconnect()
     usuario    = request.form["usuario"]
     contrasena = request.form["contrasena"]
 
-    con    = con_pool.get_connection()
     cursor = con.cursor(dictionary=True)
     sql    = """
     SELECT Id_Usuario, Nombre_Usuario, Tipo_Usuario
@@ -168,7 +181,9 @@ def rentas():
 
 @app.route("/tbodyRentas")
 def tbodyRentas():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
+        
     cursor = con.cursor(dictionary=True)
     sql    = """
     SELECT  idRenta,
@@ -203,7 +218,8 @@ def tbodyRentas():
 
 @app.route("/rentas/guardar", methods=["POST", "GET"])
 def guardarRenta():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     if request.method == "POST":
         data = request.get_json(silent=True) or request.form
@@ -252,7 +268,8 @@ def guardarRenta():
 
 @app.route("/rentas/eliminar", methods=["POST", "GET"])
 def eliminarRenta():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     if request.method == "POST":
         IdTraje = request.form.get("id")
@@ -273,7 +290,8 @@ def eliminarRenta():
 
 @app.route("/rentas/<int:id>")
 def editarRenta(id):
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     cursor = con.cursor(dictionary=True)
     sql    = """
@@ -293,7 +311,8 @@ def editarRenta(id):
 
 @app.route("/rentas/buscar", methods=["GET"])
 def buscarRenta():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     args     = request.args
     busqueda = args["busqueda"]
@@ -340,7 +359,8 @@ def clientes():
 @app.route("/tbodyClientes")
 def tbodyClientes():
     try:
-        con = con_pool.get_connection()
+        if not con.is_connected():
+        con.reconnect()
         cursor = con.cursor(dictionary=True)
 
         sql = """
@@ -369,7 +389,8 @@ def tbodyClientes():
 
 @app.route("/clientes/buscar", methods=["GET"])
 def buscarClientes():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     args     = request.args
     busqueda = args["busqueda"]
@@ -421,7 +442,8 @@ def buscarClientes():
 # Usar cuando solo se quiera usar CORS en rutas específicas
 # @cross_origin()
 def guardarCliente():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     idCliente = request.form.get("idCliente")
     nombre      = request.form["nombreCliente"]
@@ -460,7 +482,8 @@ def guardarCliente():
 
 @app.route("/cliente/<int:id>")
 def editarClientes(id):
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
     
     cursor = con.cursor(dictionary=True)
     sql    = """
@@ -481,7 +504,8 @@ def editarClientes(id):
 @app.route("/clientes/eliminar", methods=["POST"])
 def eliminarCliente():
     try:
-        con = con_pool.get_connection()
+        if not con.is_connected():
+        con.reconnect()
         cursor = con.cursor()
 
         idCliente = request.form.get("id")
@@ -509,7 +533,8 @@ def trajes():
 
 @app.route("/tbodyTrajes")
 def tbodyTrajes():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
     cursor = con.cursor(dictionary=True)
     sql    = """
     SELECT IdTraje,
@@ -540,7 +565,8 @@ def tbodyTrajes():
 
 @app.route("/trajes/guardar", methods=["POST", "GET"])
 def guardarTraje():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     if request.method == "POST":
         data = request.get_json(silent=True) or request.form
@@ -580,7 +606,8 @@ def guardarTraje():
 
 @app.route("/trajes/eliminar", methods=["POST", "GET"])
 def eliminartraje():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     if request.method == "POST":
         IdTraje = request.form.get("id")
@@ -603,7 +630,8 @@ def eliminartraje():
 
 @app.route("/trajes/<int:id>")
 def editarTrajes(id):
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     cursor = con.cursor(dictionary=True)
     sql    = """
@@ -623,7 +651,8 @@ def editarTrajes(id):
 
 @app.route("/trajes/buscar", methods=["GET"])
 def buscarTrajes():
-    con = con_pool.get_connection()
+    if not con.is_connected():
+        con.reconnect()
 
     args     = request.args
     busqueda = args["busqueda"]
@@ -658,3 +687,4 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+

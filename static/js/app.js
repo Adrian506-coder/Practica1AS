@@ -820,6 +820,9 @@ app.controller("trajesCtrl", function ($scope, $http) {
             txtDescripcion: $scope.txtDescripcion
         }).then(function(respuesta) {
             alert(respuesta.data.mensaje);
+            print("➡️ IdTraje:", id_traje)
+            print("➡️ Nombre:", nombre)
+            print("➡️ Descripción:", descripcion)
             $scope.txtNombre = "";
             $scope.txtDescripcion = "";
             $scope.txtIdTraje = null;
@@ -879,142 +882,10 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
     });
 })
 
-app.controller("productosCtrl", function ($scope, $http, $rootScope) {
-    function buscarProductos() {
-        $("#tbodyProductos").html(`<tr>
-            <th colspan="5" class="text-center">
-                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
-            </th>
-        </tr>`)
-        $.get("productos/buscar", {
-            busqueda: ""
-        }, function (productos) {
-            enableAll()
-            $("#tbodyProductos").html("")
-            for (let x in productos) {
-                const producto = productos[x]
-
-                $("#tbodyProductos").append(`<tr>
-                    <td>${producto.Id_Producto}</td>
-                    <td>${producto.Nombre_Producto}</td>
-                    <td>${producto.Precio}</td>
-                    <td>${producto.Existencias}</td>
-                    <td>
-                        <button class="btn btn-info btn-ingredientes me-1 mb-1 while-waiting" data-id="${producto.Id_Producto}">Ver ingredientes...</button>
-                        <button class="btn btn-danger btn-eliminar while-waiting" data-id="${producto.Id_Producto}">Eliminar</button>
-                    </td>
-                </tr>`)
-            }
-        })
-        disableAll()
-    }
-
-    buscarProductos()
-    
-    let preferencias = $rootScope.preferencias
-
-    Pusher.logToConsole = true
-
-    const pusher = new Pusher("12cb9c6b5319b2989000", {
-        cluster: "us2"
-    })
-    const channel = pusher.subscribe("canalProductos")
-
-    $(document).on("submit", "#frmProducto", function (event) {
-        event.preventDefault()
-
-        $.post("producto", {
-            id: "",
-            nombre: $("#txtNombre").val(),
-            precio: $("#txtPrecio").val(),
-            existencias: $("#txtExistencias").val(),
-        }, function (respuesta) {
-            enableAll()
-        })
-        disableAll()
-    })
-
-    $(document).on("click", "#chkActualizarAutoTbodyProductos", function (event) {
-        if (this.checked) {
-            channel.bind("eventoProductos", function(data) {
-                // alert(JSON.stringify(data))
-                buscarProductos()
-            })
-            return
-        }
-
-        channel.unbind("eventoProductos")
-    })
-
-    $(document).on("click", ".btn-ingredientes", function (event) {
-        const id = $(this).data("id")
-
-        $.get(`productos/ingredientes/${id}`, function (html) {
-            modal(html, "Ingredientes", [
-                {html: "Aceptar", class: "btn btn-secondary", fun: function (event) {
-                    closeModal()
-                }}
-            ])
-        })
-    })
-
-    $(document).on("click", ".btn-eliminar", function (event) {
-        const id = $(this).data("id")
-
-        modal("Eliminar este producto?", 'Confirmaci&oacute;n', [
-            {html: "No", class: "btn btn-secondary", dismiss: true},
-            {html: "Sí", class: "btn btn-danger while-waiting", defaultButton: true, fun: function () {
-                $.post(`producto/eliminar`, {
-                    id: id
-                }, function (respuesta) {
-                    enableAll()
-                    closeModal()
-                })
-                disableAll()
-            }}
-        ])
-    })
-})
-
-
-app.controller("decoracionesCtrl", function ($scope, $http) {
-    function buscarDecoraciones() {
-        $.get("tbodyDecoraciones", function (trsHTML) {
-            $("#tbodyDecoraciones").html(trsHTML)
-        })
-    }
-
-    buscarDecoraciones()
-    
-    Pusher.logToConsole = true
-
-    const pusher = new Pusher("12cb9c6b5319b2989000", {
-        cluster: "us2"
-    })
-    const channel = pusher.subscribe("canalDecoraciones")
-    channel.bind("eventoDecoraciones", function(data) {
-        // alert(JSON.stringify(data))
-        buscarDecoraciones()
-    })
-
-    $(document).on("submit", "#frmDecoracion", function (event) {
-        event.preventDefault()
-
-        $.post("decoracion", {
-            id: "",
-            nombre: $("#txtNombre").val(),
-            precio: $("#txtPrecio").val(),
-            existencias: $("#txtExistencias").val(),
-        })
-    })
-})
-
-
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

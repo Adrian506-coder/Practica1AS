@@ -231,10 +231,10 @@ def guardarRenta():
                 idTraje         = %s,
                 descripcion     = %s,
                 fechaHoraInicio = %s,
-                fechaHoraFin
+                fechaHoraFin    = %s
         WHERE idRenta = %s
         """
-        cursor.execute(sql, (cliente, traje, descripcion, fechahorainicio, fechahorafin, id))
+        cursor.execute(sql, (cliente, traje, descripcion, fechahorainicio, fechahorafin))
         
         pusherRentas()
     else: 
@@ -242,7 +242,7 @@ def guardarRenta():
         INSERT INTO rentas (idCliente, idTraje, descripcion, fechaHoraInicio, fechaHoraFin)
         VALUES             (%s, %s, %s, %s, %s)
         """
-        cursor.execute(sql, (nombre, descripcion))
+        cursor.execute(sql, (cliente, traje, descripcion, fechahorainicio, fechahorafin))
 
         pusherRentas()
 
@@ -656,6 +656,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

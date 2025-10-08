@@ -1,5 +1,8 @@
 <form id="frmTrajes" ng-submit="guardarTraje()" method="post">
     <div class="mb-1">
+        <input type="hidden" id="txtIdTraje" name="txtIdTraje" ng-model="txtIdTraje">
+    </div>
+    <div class="mb-1">
         <label>Nombre</label>
         <input type="text" class="form-control" id="txtNombre" name="txtNombre" ng-model="txtNombre">
     </div>

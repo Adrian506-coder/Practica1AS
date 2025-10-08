@@ -784,9 +784,6 @@ app.controller("trajesCtrl", function ($scope, $http) {
                     console.log("Descripción:", traje.descripcion);
                     console.log("ID del traje:", traje.IdTraje);
                     
-                    document.getElementById('txtNombre').value = traje.nombreTraje;
-                    document.getElementById('txtDescripcion').value = traje.descripcion;
-                    document.getElementById('txtIdTraje').value = traje.IdTraje;
                     $scope.txtNombre = traje.nombreTraje;
                     $scope.txtDescripcion = traje.descripcion;
                     $scope.txtIdTraje = traje.IdTraje;
@@ -820,9 +817,6 @@ app.controller("trajesCtrl", function ($scope, $http) {
             txtDescripcion: $scope.txtDescripcion
         }).then(function(respuesta) {
             alert(respuesta.data.mensaje);
-            print("➡️ IdTraje:", id_traje)
-            print("➡️ Nombre:", nombre)
-            print("➡️ Descripción:", descripcion)
             $scope.txtNombre = "";
             $scope.txtDescripcion = "";
             $scope.txtIdTraje = null;
@@ -885,6 +879,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

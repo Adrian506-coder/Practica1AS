@@ -1,0 +1,13 @@
+{% for renta in rentas %}
+<tr>
+    <td>{{ renta.idRenta }}</td>
+    <td>{{ renta.idCliente }}</td>
+    <td>{{ renta.idTraje }}</td>
+    <td>{{ renta.descripcion }}</td>
+    <td>{{ renta.fechaHoraInicio }}</td>
+    <td>{{ renta.fechaHoraFin }}</td>
+    <td><button class="btn btn-sm btn-danger btn-eliminar" data-id="{{ renta.idRenta}}">Eliminar</button></td>
+</tr>
+{% endfor %}
+
+

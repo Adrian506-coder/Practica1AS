@@ -93,26 +93,17 @@ def login(fun):
 
 @app.route("/")
 def landingPage():
-    if not con.is_connected():
-        con.reconnect()
-
-    con.close()
+    
     return render_template("landing-page.html")
 
 @app.route("/dashboard")
 def dashboard():
-    if not con.is_connected():
-        con.reconnect()
-
-    con.close()
+    
     return render_template("dashboard.html")
 
 @app.route("/login")
 def appLogin():
-    if not con.is_connected():
-        con.reconnect()
-
-    con.close()
+    
     return render_template("login.html")
     # return "<h5>Hola, soy la view app</h5>"
 
@@ -687,4 +678,5 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 

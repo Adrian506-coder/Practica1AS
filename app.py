@@ -495,7 +495,7 @@ def editarClientes(id):
 def eliminarCliente():
     try:
         if not con.is_connected():
-        con.reconnect()
+            con.reconnect()
         cursor = con.cursor()
 
         idCliente = request.form.get("id")
@@ -677,3 +677,4 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+

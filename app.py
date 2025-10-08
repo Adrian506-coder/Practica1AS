@@ -587,6 +587,8 @@ def eliminartraje():
     else:
         IdTraje = request.args.get("id")
 
+    IdTraje = int(IdTraje)
+    
     cursor = con.cursor()
     sql = "DELETE FROM trajes WHERE IdTraje = %s"
     val = (IdTraje,)
@@ -656,9 +658,3 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
-
-
-
-
-
-

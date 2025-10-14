@@ -170,40 +170,36 @@ def rentas():
 
 @app.route("/tbodyRentas")
 def tbodyRentas():
-    if not con.is_connected():
-        con.reconnect()
-        
-    cursor = con.cursor(dictionary=True)
-    sql    = """
-    SELECT  idRenta,
-            idCliente,
-            idTraje,
-            descripcion,
-            fechaHoraInicio,
-            fechaHoraFin
-    FROM rentas
+    try:
+        con = con.get_connection()
+        cursor = con.cursor(dictionary=True)
 
-    ORDER BY idRenta DESC
+        sql = """
+        SELECT rentas.idRenta, clientes.nombreCliente, trajes.nombreTraje, trajes.descripcion, 
+            rentas.fechaHoraInicio, rentas.fechaHoraFin
+        FROM rentas
+        INNER JOIN clientes ON rentas.idCliente = clientes.idCliente
+        INNER JOIN trajes ON rentas.idTraje = trajes.idTraje;
 
-    LIMIT 10 OFFSET 0
-    """
+        ORDER BY idRenta DESC
+        LIMIT 10 OFFSET 0
+        """
 
-    cursor.execute(sql)
-    registros = cursor.fetchall()
+        cursor.execute(sql)
+        registros = cursor.fetchall()
 
-    # Si manejas fechas y horas
-    for registro in registros:
-            inicio = registro["fechaHoraInicio"]
-            fin = registro["fechaHoraFin"]
+        # Aquí puedes devolver HTML renderizado o JSON
+        return render_template("tbodyRentas.html", rentas=registros)
 
-            registro["fechaInicioFormato"] = inicio.strftime("%d/%m/%Y")
-            registro["horaInicioFormato"]  = inicio.strftime("%H:%M:%S")
+    except Exception as e:
+        print("Error en /tbodyRentas:", e)
+        return make_response(jsonify({"error": str(e)}), 500)
 
-            registro["fechaFinFormato"] = fin.strftime("%d/%m/%Y")
-            registro["horaFinFormato"]  = fin.strftime("%H:%M:%S")
-    
-
-    return render_template("tbodyRentas.html", rentas=registros)
+    finally:
+        if cursor:
+            cursor.close()
+        if con and con.is_connected():
+            con.close()
 
 @app.route("/rentas/guardar", methods=["POST", "GET"])
 def guardarRenta():
@@ -677,4 +673,5 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 

@@ -14,6 +14,14 @@ import pusher
 import pytz
 import datetime
 
+import traceback
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    print("❌ ERROR DETECTADO EN FLASK ❌")
+    traceback.print_exc()
+    return make_response(jsonify({"error": str(e)}), 500)
+
 app            = Flask(__name__)
 app.secret_key = "Test12345"
 CORS(app)
@@ -718,6 +726,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

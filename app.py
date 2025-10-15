@@ -348,14 +348,15 @@ def buscarRentas():
     cursor = con.cursor(dictionary=True)
     sql    = """
     SELECT rentas.idRenta,
+           clientes.idCliente,
            clientes.nombreCliente,
+           trajes.idTraje,
            trajes.nombreTraje,
            rentas.descripcion,
            rentas.fechaHoraInicio,
            rentas.fechaHoraFin
            
     FROM rentas
-    
     INNER JOIN clientes ON rentas.idCliente = clientes.idCliente
     INNER JOIN trajes ON rentas.idTraje = trajes.idTraje
     
@@ -363,9 +364,7 @@ def buscarRentas():
        OR trajes.nombreTraje LIKE %s
        OR rentas.fechaHoraInicio LIKE %s
        OR rentas.fechaHoraFin LIKE %s
-       
     ORDER BY idRenta DESC
-    
     LIMIT 10 OFFSET 0
     """
     val    = (busqueda, busqueda, busqueda, busqueda)
@@ -746,6 +745,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

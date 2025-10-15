@@ -247,8 +247,8 @@ def guardarRenta():
     cliente          = request.form["cliente"]
     traje            = request.form["traje"]
     descripcion      = request.form["descripcion"]
-    fechahorainicio  = datetime.datetime.now(pytz.timezone("America/Matamoros"))
-    fechahorafin     = datetime.datetime.now(pytz.timezone("America/Matamoros"))
+    fechahorainicio  = request.form["fechaHoraInicio"]
+    fechahorafin     = request.form["fechaHoraFin"]
     # fechahora   = datetime.datetime.now(pytz.timezone("America/Matamoros"))
     
     cursor = con.cursor()
@@ -748,6 +748,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

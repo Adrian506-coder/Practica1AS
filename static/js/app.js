@@ -591,12 +591,23 @@ app.controller("rentasCtrl", function ($scope, $http) {
             registros.forEach(renta => {
                 trsHTML += `
                     <tr>
-                        <td>${renta.idCliente}</td>
-                        <td>${renta.idTraje}</td>
+                        <td>${renta.idRenta}</td>
+                        <td>${renta.nombreCliente}</td>
+                        <td>${renta.nombreTraje}</td>
+                        <td>${renta.descripcion}</td>
                         <td>${renta.fechaHoraInicio}</td>
                         <td>${renta.fechaHoraFin}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm btn-eliminar" data-id="${renta.idRenta}">Eliminar</button>
+                            <button class="btn btn-sm btn-warning btn-editar"
+                                    data-id="${renta.idRenta}"
+                                    data-cliente-id="${renta.idCliente}"
+                                    data-traje-id="${renta.idTraje}"
+                                    data-descripcion="${renta.descripcion}"
+                                    data-fechahorainicio="${renta.fechaHoraInicio}"
+                                    data-fechahorafin="${renta.fechaHoraFin}">
+                                Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${renta.idRenta}">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -886,6 +897,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

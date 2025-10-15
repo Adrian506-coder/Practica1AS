@@ -224,9 +224,11 @@ def tbodyRentas():
         inicio = registro["fechaHoraInicio"]
         fin = registro["fechaHoraFin"]
 
+        registro["fechaHoraInicioISO"] = inicio.strftime("%Y-%m-%dT%H:%M")
         registro["fechaInicioFormato"] = inicio.strftime("%d/%m/%Y")
         registro["horaInicioFormato"]  = inicio.strftime("%H:%M:%S")
 
+        registro["fechaHoraFinISO"] = fin.strftime("%Y-%m-%dT%H:%M")
         registro["fechaFinFormato"] = fin.strftime("%d/%m/%Y")
         registro["horaFinFormato"]  = fin.strftime("%H:%M:%S")
     
@@ -379,10 +381,12 @@ def buscarRentas():
         for registro in registros:
             inicio = registro["fechaHoraInicio"]
             fin = registro["fechaHoraFin"]
-
+    
+            registro["fechaHoraInicioISO"] = inicio.strftime("%Y-%m-%dT%H:%M")
             registro["fechaInicioFormato"] = inicio.strftime("%d/%m/%Y")
             registro["horaInicioFormato"]  = inicio.strftime("%H:%M:%S")
-
+    
+            registro["fechaHoraFinISO"] = fin.strftime("%Y-%m-%dT%H:%M")
             registro["fechaFinFormato"] = fin.strftime("%d/%m/%Y")
             registro["horaFinFormato"]  = fin.strftime("%H:%M:%S")
         
@@ -744,6 +748,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

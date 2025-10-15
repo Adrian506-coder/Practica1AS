@@ -631,7 +631,7 @@ app.controller("rentasCtrl", function ($scope, $http) {
             console.log("Renta guardada o actualizada correctamente");
             $("#frmRenta")[0].reset();
             $("#idRenta").val("");
-            cargarTablaClientes(); 
+            buscarRentas(); 
         }).fail(function(xhr){
             console.error("Error al guardar/actualizar renta:", xhr.responseText);
         });
@@ -652,15 +652,15 @@ app.controller("rentasCtrl", function ($scope, $http) {
         
     $(document).on("click", "#tbodyRentas .btn-editar", function() {
         const id = $(this).data("id");
-        const nombreCliente = $(this).data("nombreC");
-        const nombreTraje = $(this).data("nombreT");
+        const cliente = $(this).data("cliente");
+        const traje = $(this).data("traje");
         const descripcion = $(this).data("descripcion");
-        const fechaHoraInicio = $(this).data("correo");
-        const fechaHoraFin = $(this).data("correo");
+        const fechaHoraInicio = $(this).data("fechahorainicio");
+        const fechaHoraFin = $(this).data("fechahorafin");
 
         $("#idCliente").val(id);
-        $("#txtIdCliente").val(nombreCliente);
-        $("#txtIdTraje").val(nombreTraje);
+        $("#txtIdCliente").val(cliente);
+        $("#txtIdTraje").val(traje);
         $("#txtDescripcion").val(descripcion);
         $("#txtFechaInicio").val(fechaHoraInicio);
         $("#txttxtFechaFin").val(fechaHoraFin);
@@ -670,7 +670,6 @@ app.controller("rentasCtrl", function ($scope, $http) {
         btnGuardar.removeClass("btn-primary").addClass("btn-success");
     });
 });
-
 
 app.controller("clientesCtrl", function ($scope, $http) {
 
@@ -887,6 +886,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

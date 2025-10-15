@@ -591,8 +591,8 @@ app.controller("rentasCtrl", function ($scope, $http) {
             registros.forEach(renta => {
                 trsHTML += `
                     <tr>
-                        <td>${renta.nombreCliente}</td>
-                        <td>${renta.nombreTraje}</td>
+                        <td>${renta.idCliente}</td>
+                        <td>${renta.idTraje}</td>
                         <td>${renta.fechaHoraInicio}</td>
                         <td>${renta.fechaHoraFin}</td>
                         <td>
@@ -651,7 +651,7 @@ app.controller("rentasCtrl", function ($scope, $http) {
     });
         
     $(document).on("click", "#tbodyRentas .btn-editar", function() {
-        const id = $(this).data("id");
+        const id = $(this).data("idRenta");
         const cliente = $(this).data("cliente");
         const traje = $(this).data("traje");
         const descripcion = $(this).data("descripcion");
@@ -886,6 +886,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

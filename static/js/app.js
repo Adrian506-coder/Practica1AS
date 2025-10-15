@@ -620,7 +620,7 @@ app.controller("rentasCtrl", function ($scope, $http) {
         const idRenta = $("#idRenta").val(); 
 
         $.post("/renta", {
-            idRenta: idRenta,
+            idRenta: $("#idRenta").val(),
             cliente: $("#txtIdCliente").val(),
             traje: $("#txtIdTraje").val(),
             descripcion: $("#txtDescripcion").val(),
@@ -886,6 +886,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

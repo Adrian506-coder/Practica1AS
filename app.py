@@ -174,7 +174,21 @@ def preferencias():
 @app.route("/rentas")
 @login
 def rentas():
-    return render_template("rentas.html")
+    if not con.is_connected():
+        con.reconnect()
+    
+    cursor = con.cursor(dictionary=True)
+    
+    # Obtener clientes
+    cursor.execute("SELECT idCliente, nombreCliente FROM clientes ORDER BY nombreCliente")
+    clientes = cursor.fetchall()
+    
+    # Obtener trajes
+    cursor.execute("SELECT idTraje, nombreTraje FROM trajes ORDER BY nombreTraje")
+    trajes = cursor.fetchall()
+    
+    return render_template("rentas.html", clientes=clientes, trajes=trajes)
+
 
 @app.route("/tbodyRentas")
 @login
@@ -333,26 +347,28 @@ def buscarRentas():
 # EN WHERE BUSQUEDA PUSE SOLO TRES POR EL "VAL" NO SE SI SE LIMITE (si se limita)
     cursor = con.cursor(dictionary=True)
     sql    = """
-    SELECT idRenta,
-           idCliente,
-           idTraje,
-           descripcion,
-           fechaHoraInicio,
-           fechaHoraFin
-
+    SELECT rentas.idRenta,
+           clientes.nombreCliente,
+           trajes.nombreTraje,
+           rentas.descripcion,
+           rentas.fechaHoraInicio,
+           rentas.fechaHoraFin
+           
     FROM rentas
-
-    WHERE idRenta LIKE %s
-    OR    idCliente        LIKE %s
-    OR    idTraje          LIKE %s
-    OR    fechaHoraInicio  LIKE %s
-    OR    fechaHoraFin     LIKE %s
-
+    
+    INNER JOIN clientes ON rentas.idCliente = clientes.idCliente
+    INNER JOIN trajes ON rentas.idTraje = trajes.idTraje
+    
+    WHERE clientes.nombreCliente LIKE %s
+       OR trajes.nombreTraje LIKE %s
+       OR rentas.fechaHoraInicio LIKE %s
+       OR rentas.fechaHoraFin LIKE %s
+       
     ORDER BY idRenta DESC
-
+    
     LIMIT 10 OFFSET 0
     """
-    val    = (busqueda, busqueda, busqueda, busqueda, busqueda)
+    val    = (busqueda, busqueda, busqueda, busqueda)
 
 # CHECAR FECHA/ listo
 
@@ -730,6 +746,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

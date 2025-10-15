@@ -658,7 +658,7 @@ app.controller("rentasCtrl", function ($scope, $http) {
         const fechaHoraInicio = $(this).data("fechahorainicio");
         const fechaHoraFin = $(this).data("fechahorafin");
 
-        $("#idCliente").val(id);
+        $("#idRenta").val(id);
         $("#txtIdCliente").val(cliente);
         $("#txtIdTraje").val(traje);
         $("#txtDescripcion").val(descripcion);
@@ -886,6 +886,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

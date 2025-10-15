@@ -598,16 +598,16 @@ app.controller("rentasCtrl", function ($scope, $http) {
                         <td>${renta.fechaInicioFormato} ${renta.horaInicioFormato}</td>
                         <td>${renta.fechaFinFormato} ${renta.horaFinFormato}</td>
                         <td>
-                            <button class="btn btn-sm btn-warning btn-editar"
-                                    data-id="${renta.idRenta}"
-                                    data-cliente-id="${renta.idCliente}"
-                                    data-traje-id="${renta.idTraje}"
-                                    data-descripcion="${renta.descripcion}"
-                                    data-fechahorainicio="${renta.fechaHoraInicio}"
-                                    data-fechahorafin="${renta.fechaHoraFin}">
-                                Editar
-                            </button>
                             <button class="btn btn-sm btn-danger btn-eliminar" data-id="${renta.idRenta}">Eliminar</button>
+                            <button class="btn btn-sm btn-warning btn-editar"
+                              data-id="{{ renta.idRenta }}"
+                              data-cliente-id="{{ renta.idCliente }}"
+                              data-traje-id="{{ renta.idTraje }}"
+                              data-descripcion="{{ renta.descripcion }}"
+                              data-fechahorainicio="{{ renta.fechaHoraInicioISO }}"
+                              data-fechahorafin="{{ renta.fechaHoraFinISO }}">
+                              Editar
+                            </button></td>
                         </td>
                     </tr>
                 `;
@@ -898,6 +898,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

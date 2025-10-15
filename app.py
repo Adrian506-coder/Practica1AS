@@ -221,50 +221,46 @@ def tbodyRentas():
 
 # GUARDAR
 @app.route("/renta", methods=["POST"])
-# Usar cuando solo se quiera usar CORS en rutas específicas
-# @cross_origin()
 def guardarRenta():
     if not con.is_connected():
         con.reconnect()
 
-    idRenta         = request.form.get("idRenta")
-    cliente          = request.form.get("cliente")
-    traje            = request.form.get("traje")
-    descripcion      = request.form.get("descripcion")
-    fechahorainicio  = datetime.datetime.now(pytz.timezone("America/Matamoros"))
-    fechahorafin     = datetime.datetime.now(pytz.timezone("America/Matamoros"))
-    # fechahora   = datetime.datetime.now(pytz.timezone("America/Matamoros"))
-    
+    idRenta = request.form.get("idRenta")
+    cliente = request.form.get("txtIdCliente")
+    traje = request.form.get("txtIdTraje")
+    descripcion = request.form.get("txtDescripcion")
+
+    # convertir fechas del formulario
+    fechahorainicio = datetime.strptime(request.form.get("txtFechaInicio"), "%Y-%m-%dT%H:%M")
+    fechahorafin = datetime.strptime(request.form.get("txttxtFechaFin"), "%Y-%m-%dT%H:%M")
+
     cursor = con.cursor()
 
-    if id:
+    if idRenta:
+        idRenta = int(idRenta)
         sql = """
         UPDATE rentas
-
-        SET idCliente       = %s,
-            idTraje         = %s,
-            descripcion     = %s,
+        SET idCliente = %s,
+            idTraje = %s,
+            descripcion = %s,
             fechaHoraInicio = %s,
-            fechaHoraFin    = %s
-
+            fechaHoraFin = %s
         WHERE idRenta = %s
         """
         val = (cliente, traje, descripcion, fechahorainicio, fechahorafin, idRenta)
     else:
-        # FALTA CAMBIAR/ listo
         sql = """
         INSERT INTO rentas (idCliente, idTraje, descripcion, fechaHoraInicio, fechaHoraFin)
-                    VALUES (   %s,        %s,        %s,            %s,            %s)
+        VALUES (%s, %s, %s, %s, %s)
         """
-        val =                 (cliente, traje, descripcion, fechahorainicio, fechahorafin)
-    
+        val = (cliente, traje, descripcion, fechahorainicio, fechahorafin)
+
     cursor.execute(sql, val)
     con.commit()
     con.close()
 
-# CAMBIAR PUSHERRRRRR
     pusherRentas()
-    
+
     return make_response(jsonify({}))
 
 
@@ -725,6 +721,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

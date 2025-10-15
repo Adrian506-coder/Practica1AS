@@ -238,7 +238,7 @@ def guardarRenta():
             idTraje         = %s,
             descripcion     = %s,
             fechaHoraInicio = %s,
-            fechaHoraFin
+            fechaHoraFin    = %s
 
         WHERE idRenta = %s
         """
@@ -718,6 +718,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

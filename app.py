@@ -227,7 +227,7 @@ def guardarRenta():
     if not con.is_connected():
         con.reconnect()
 
-    iidRenta         = request.form.get("idRenta")
+    idRenta         = request.form.get("idRenta")
     cliente          = request.form.get("cliente")
     traje            = request.form.get("traje")
     descripcion      = request.form.get("descripcion")
@@ -725,6 +725,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

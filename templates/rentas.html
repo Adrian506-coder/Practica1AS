@@ -3,12 +3,22 @@
 
     <div class="mb-1">
         <label>Clientes</label>
-        <input type="text" class="form-control" id="txtIdCliente" name="txtIdCliente">
+        <select class="form-control" id="txtIdCliente" name="txtIdCliente">
+            {% for cliente in clientes %}
+                <option value="{{ cliente.idCliente }}">{{ cliente.nombreCliente }}</option>
+            {% endfor %}
+        </select>
     </div>
+    
     <div class="mb-1">
         <label>Traje</label>
-        <input type="text" class="form-control" id="txtIdTraje" name="txtIdTraje">
+        <select class="form-control" id="txtIdTraje" name="txtIdTraje">
+            {% for traje in trajes %}
+                <option value="{{ traje.idTraje }}">{{ traje.nombreTraje }}</option>
+            {% endfor %}
+        </select>
     </div>
+
     <div class="mb-1">
         <label>Descripcion</label>
         <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion">
@@ -46,6 +56,7 @@
         <tbody id="tbodyRentas"></tbody>
     </table>
 </div>
+
 
 
 

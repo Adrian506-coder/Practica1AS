@@ -524,10 +524,12 @@ def eliminarCliente():
 
 # TRAJES
 @app.route("/trajes")
+@login
 def trajes():
     return render_template("trajes.html")
 
 @app.route("/tbodyTrajes")
+@login
 def tbodyTrajes():
     if not con.is_connected():
         con.reconnect()
@@ -560,6 +562,7 @@ def tbodyTrajes():
     return render_template("tbodyTrajes.html", trajes=registros)
 
 @app.route("/trajes/guardar", methods=["POST", "GET"])
+@login
 def guardarTraje():
     if not con.is_connected():
         con.reconnect()
@@ -601,6 +604,7 @@ def guardarTraje():
     return make_response(jsonify({"mensaje": "Traje guardado correctamente"}))
 
 @app.route("/trajes/eliminar", methods=["POST", "GET"])
+@login
 def eliminartraje():
     if not con.is_connected():
         con.reconnect()
@@ -625,6 +629,7 @@ def eliminartraje():
     return make_response(jsonify({"status": "ok"}))
 
 @app.route("/trajes/<int:id>")
+@login
 def editarTrajes(id):
     if not con.is_connected():
         con.reconnect()
@@ -646,6 +651,7 @@ def editarTrajes(id):
     return make_response(jsonify(registros))
 
 @app.route("/trajes/buscar", methods=["GET"])
+@login
 def buscarTrajes():
     if not con.is_connected():
         con.reconnect()
@@ -683,6 +689,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

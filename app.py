@@ -221,9 +221,9 @@ def guardarRenta():
         con.reconnect()
 
     iidRenta         = request.form.get("idRenta")
-    cliente          = request.form.get["cliente"]
-    traje            = request.form.get["traje"]
-    descripcion      = request.form.get["descripcion"]
+    cliente          = request.form.get("cliente")
+    traje            = request.form.get("traje")
+    descripcion      = request.form.get("descripcion")
     fechahorainicio  = datetime.datetime.now(pytz.timezone("America/Matamoros"))
     fechahorafin     = datetime.datetime.now(pytz.timezone("America/Matamoros"))
     # fechahora   = datetime.datetime.now(pytz.timezone("America/Matamoros"))
@@ -242,7 +242,7 @@ def guardarRenta():
 
         WHERE idRenta = %s
         """
-        val = (cliente, traje, descripcion, fechahorainicio, fechahorafin, id)
+        val = (cliente, traje, descripcion, fechahorainicio, fechahorafin, idRenta)
     else:
         # FALTA CAMBIAR/ listo
         sql = """
@@ -718,6 +718,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

@@ -595,8 +595,6 @@ app.controller("rentasCtrl", function ($scope, $http) {
                         <td>${renta.nombreCliente}</td>
                         <td>${renta.nombreTraje}</td>
                         <td>${renta.descripcion}</td>
-                        <td>${renta.fechaHoraInicio}</td>
-                        <td>${renta.fechaHoraFin}</td>
                         <td>${renta.fechaInicioFormato} ${renta.horaInicioFormato}</td>
                         <td>${renta.fechaFinFormato} ${renta.horaFinFormato}</td>
                         <td>
@@ -899,6 +897,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

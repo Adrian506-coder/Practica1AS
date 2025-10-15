@@ -718,6 +718,7 @@ app.controller("clientesCtrl", function ($scope, $http) {
                         <td>${cliente.correoElectronico}</td>
                         <td>
                             <button class="btn btn-danger btn-sm btn-eliminar" data-id="${cliente.idCliente}">Eliminar</button>
+                            <button class="btn btn-sm btn-warning btn-editar" data-id="{{ cliente.idCliente }}" data-nombre="{{ cliente.nombreCliente }}" data-telefono="{{ cliente.telefono }}" data-correo="{{ cliente.correoElectronico }}">Editar</button>
                         </td>
                     </tr>
                 `;
@@ -897,6 +898,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

@@ -172,10 +172,12 @@ def preferencias():
 
 
 @app.route("/rentas")
+@login
 def rentas():
     return render_template("rentas.html")
 
 @app.route("/tbodyRentas")
+@login
 def tbodyRentas():
     if not con.is_connected():
         con.reconnect()
@@ -221,8 +223,7 @@ def tbodyRentas():
 
 # GUARDAR
 @app.route("/renta", methods=["POST"])
-# Usar cuando solo se quiera usar CORS en rutas específicas
-# @cross_origin()
+@login
 def guardarRenta():
     if not con.is_connected():
         con.reconnect()
@@ -271,6 +272,7 @@ def guardarRenta():
 
 # ELIMINAR
 @app.route("/renta/eliminar", methods=["POST"])
+@login
 def eliminarRenta():
     if not con.is_connected():
         con.reconnect()
@@ -295,6 +297,7 @@ def eliminarRenta():
 
 # EDITAR
 @app.route("/renta/<int:id>")
+@login
 def editarProducto(id):
     if not con.is_connected():
         con.reconnect()
@@ -318,6 +321,7 @@ def editarProducto(id):
 
 # BUSQUEDA
 @app.route("/rentas/buscar", methods=["GET"])
+@login
 def buscarRentas():
     if not con.is_connected():
         con.reconnect()
@@ -726,6 +730,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

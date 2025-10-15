@@ -4,6 +4,7 @@
     <div class="mb-1">
         <label>Clientes</label>
         <select class="form-control" id="txtIdCliente" name="txtIdCliente">
+            <option value="" disabled selected>Seleccione una opción</option>
             {% for cliente in clientes %}
                 <option value="{{ cliente.idCliente }}">{{ cliente.nombreCliente }}</option>
             {% endfor %}
@@ -13,6 +14,7 @@
     <div class="mb-1">
         <label>Traje</label>
         <select class="form-control" id="txtIdTraje" name="txtIdTraje">
+            <option value="" disabled selected>Seleccione una opción</option>
             {% for traje in trajes %}
                 <option value="{{ traje.idTraje }}">{{ traje.nombreTraje }}</option>
             {% endfor %}
@@ -56,6 +58,7 @@
         <tbody id="tbodyRentas"></tbody>
     </table>
 </div>
+
 
 
 

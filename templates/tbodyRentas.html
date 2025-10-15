@@ -7,7 +7,8 @@
     <td>{{ renta.fechaHoraInicio }}</td>
     <td>{{ renta.fechaHoraFin }}</td>
     <td><button class="btn btn-sm btn-danger btn-eliminar" data-id="{{ renta.idRenta}}">Eliminar</button>
-    <button class="btn btn-sm btn-warning btn-editar" data-id="{{ renta.idRenta }}" data-cliente-id="{{ renta.idCliente }}" data-traje-id="{{ renta.idTraje }}" data-descripcion="{{ renta.descripcion }}" data-fechaHoraInicio="{{ renta.fechaHoraInicio }}" data-fechaHoraFin="{{ renta.fechaHoraFin }}">Editar </button></td>
+    <td><button class="btn btn-sm btn-warning btn-editar" data-id="{{ renta.idRenta }}" data-cliente-id="{{ renta.idCliente }}" data-traje-id="{{ renta.idTraje }}" data-descripcion="{{ renta.descripcion }}" data-fechaHoraInicio="{{ renta.fechaHoraInicio }}" data-fechaHoraFin="{{ renta.fechaHoraFin }}">Editar </button></td>
 </tr>
 {% endfor %}
+
 

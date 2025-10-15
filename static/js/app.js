@@ -560,42 +560,84 @@ app.controller("loginCtrl", function ($scope, $http, $rootScope) {
 })
 
 app.controller("rentasCtrl", function ($scope, $http) {
+    
     function buscarRentas() {
         $.get("/tbodyRentas", function (trsHTML) {
             $("#tbodyRentas").html(trsHTML)
         })
     }
 
-    buscarRentas()
-// PUSHER
+    buscarRentas();
 
-    // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
-
     var pusher = new Pusher('b51b00ad61c8006b2e6f', {
       cluster: 'us2'
     });
-
     var channel = pusher.subscribe("canalRentas")
     channel.bind("eventoRentas", function(data) {
-        // alert(JSON.stringify(data))
         buscarRentas()
-    })
+    });
+
+    $(document).on("click", "#btnBuscarRenta", function() {
+        const busqueda = $("#txtBuscarRenta").val().trim();
+
+        if(busqueda === "") {
+            buscarRentas();
+            return;
+        }
+
+        $.get("/rentas/buscar", { busqueda: busqueda }, function(registros) {
+            let trsHTML = "";
+            registros.forEach(renta => {
+                trsHTML += `
+                    <tr>
+                        <td>${renta.nombreCliente}</td>
+                        <td>${renta.nombreTraje}</td>
+                        <td>${renta.fechaHoraInicio}</td>
+                        <td>${renta.fechaHoraFin}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm btn-eliminar" data-id="${renta.idRenta}">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            $("#tbodyRentas").html(trsHTML);
+        }).fail(function(xhr){
+            console.error("Error al buscar rentas:", xhr.responseText);
+        });
+    });
+
+    // Permitir Enter en input
+    $("#txtBuscarRenta").on("keypress", function(e) {
+        if(e.which === 13) {
+            $("#btnBuscarRenta").click();
+        }
+    });
 
     $(document).on("submit", "#frmRenta", function (event) {
-        event.preventDefault()
+        event.preventDefault();
+
+        const idRenta = $("#idRenta").val(); 
 
         $.post("/renta", {
-            id: "",
+            idRenta: idRenta,
             cliente: $("#txtIdCliente").val(),
             traje: $("#txtIdTraje").val(),
             descripcion: $("#txtDescripcion").val(),
-            fechahorainicio: $("#txtFechaInicio").val(),
-            fechahorafin: $("#txttxtFechaFin").val(),
+            fechaHoraInicio: $("#txtFechaInicio").val(),
+            fechaHoraFin: $("#txttxtFechaFin").val()
 
-        })
-    })
-    
+        }, function(response){
+            console.log("Renta guardada o actualizada correctamente");
+            $("#frmRenta")[0].reset();
+            $("#idRenta").val("");
+            cargarTablaClientes(); 
+        }).fail(function(xhr){
+            console.error("Error al guardar/actualizar renta:", xhr.responseText);
+        });
+
+    });
+
     $(document).on("click", "#tbodyRentas .btn-eliminar", function(){
         const id = $(this).data("id");
         if(confirm("¿Deseas eliminar esta renta?")) {
@@ -604,11 +646,30 @@ app.controller("rentasCtrl", function ($scope, $http) {
                 buscarRentas(); 
             }).fail(function(xhr){
                 console.error("Error al eliminar renta:", xhr.responseText);
-            })
+            });
         }
-    })
+    });
+        
+    $(document).on("click", "#tbodyRentas .btn-editar", function() {
+        const id = $(this).data("id");
+        const nombreCliente = $(this).data("nombreC");
+        const nombreTraje = $(this).data("nombreT");
+        const descripcion = $(this).data("descripcion");
+        const fechaHoraInicio = $(this).data("correo");
+        const fechaHoraFin = $(this).data("correo");
 
-})
+        $("#idCliente").val(id);
+        $("#txtIdCliente").val(nombreCliente);
+        $("#txtIdTraje").val(nombreTraje);
+        $("#txtDescripcion").val(descripcion);
+        $("#txtFechaInicio").val(fechaHoraInicio);
+        $("#txttxtFechaFin").val(fechaHoraFin);
+
+        const btnGuardar = $("#btnGuardar");
+        btnGuardar.text("Actualizar");
+        btnGuardar.removeClass("btn-primary").addClass("btn-success");
+    });
+});
 
 
 app.controller("clientesCtrl", function ($scope, $http) {
@@ -826,6 +887,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

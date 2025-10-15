@@ -663,8 +663,8 @@ app.controller("rentasCtrl", function ($scope, $http) {
         
     $(document).on("click", "#tbodyRentas .btn-editar", function() {
         const id = $(this).data("id");
-        const clienteId = $(this).data("clienteid");
-        const trajeId = $(this).data("trajeid");
+        const clienteId = $(this).data("clienteId");
+        const trajeId = $(this).data("trajeId");
         const descripcion = $(this).data("descripcion");
         const fechaHoraInicio = $(this).data("fechahorainicio");
         const fechaHoraFin = $(this).data("fechahorafin");
@@ -897,6 +897,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 

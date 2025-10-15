@@ -165,10 +165,12 @@ def preferencias():
 
 
 @app.route("/rentas")
+@login
 def rentas():
     return render_template("rentas.html")
 
 @app.route("/tbodyRentas")
+@login
 def tbodyRentas():
     try:
         con = con.get_connection()
@@ -202,6 +204,7 @@ def tbodyRentas():
             con.close()
 
 @app.route("/rentas/guardar", methods=["POST", "GET"])
+@login
 def guardarRenta():
     if not con.is_connected():
         con.reconnect()
@@ -252,6 +255,7 @@ def guardarRenta():
     return make_response(jsonify({"mensaje": "Renta guardado correctamente"}))
 
 @app.route("/rentas/eliminar", methods=["POST", "GET"])
+@login
 def eliminarRenta():
     if not con.is_connected():
         con.reconnect()
@@ -274,6 +278,7 @@ def eliminarRenta():
     return make_response(jsonify({"status": "ok"}))
 
 @app.route("/rentas/<int:id>")
+@login
 def editarRenta(id):
     if not con.is_connected():
         con.reconnect()
@@ -295,6 +300,7 @@ def editarRenta(id):
     return make_response(jsonify(registros))
 
 @app.route("/rentas/buscar", methods=["GET"])
+@login
 def buscarRenta():
     if not con.is_connected():
         con.reconnect()
@@ -338,10 +344,12 @@ def buscarRenta():
 
 
 @app.route("/clientes")
+@login
 def clientes():
     return render_template("clientes.html")
 
 @app.route("/tbodyClientes")
+@login
 def tbodyClientes():
     try:
         if not con.is_connected():
@@ -374,6 +382,7 @@ def tbodyClientes():
 
 
 @app.route("/clientes/buscar", methods=["GET"])
+@login
 def buscarClientes():
     if not con.is_connected():
         con.reconnect()
@@ -425,8 +434,7 @@ def buscarClientes():
     return make_response(jsonify(registros))
 
 @app.route("/cliente", methods=["POST"])
-# Usar cuando solo se quiera usar CORS en rutas específicas
-# @cross_origin()
+@login
 def guardarCliente():
     if not con.is_connected():
         con.reconnect()
@@ -467,6 +475,7 @@ def guardarCliente():
     return make_response(jsonify({}))
 
 @app.route("/cliente/<int:id>")
+@login
 def editarClientes(id):
     if not con.is_connected():
         con.reconnect()
@@ -488,6 +497,7 @@ def editarClientes(id):
     return make_response(jsonify(registros))
 
 @app.route("/clientes/eliminar", methods=["POST"])
+@login
 def eliminarCliente():
     try:
         if not con.is_connected():
@@ -673,5 +683,6 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 

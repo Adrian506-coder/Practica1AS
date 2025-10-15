@@ -172,36 +172,42 @@ def rentas():
 @app.route("/tbodyRentas")
 @login
 def tbodyRentas():
-    try:
-        con = con.get_connection()
-        cursor = con.cursor(dictionary=True)
+    if not con.is_connected():
+        con.reconnect()
+    cursor = con.cursor(dictionary=True)
+    sql    = """
+    SELECT rentas.idRenta, 
+           clientes.nombreCliente, 
+           trajes.nombreTraje, 
+           trajes.descripcion, 
+           rentas.fechaHoraInicio, 
+           rentas.fechaHoraFin
 
-        sql = """
-        SELECT rentas.idRenta, clientes.nombreCliente, trajes.nombreTraje, trajes.descripcion, 
-            rentas.fechaHoraInicio, rentas.fechaHoraFin
-        FROM rentas
-        INNER JOIN clientes ON rentas.idCliente = clientes.idCliente
-        INNER JOIN trajes ON rentas.idTraje = trajes.idTraje;
+    FROM rentas
+        
+    INNER JOIN clientes ON rentas.idCliente = clientes.idCliente
+    INNER JOIN trajes ON rentas.idTraje = trajes.idTraje;
 
-        ORDER BY idRenta DESC
-        LIMIT 10 OFFSET 0
-        """
+    ORDER BY idRenta DESC
+    LIMIT 10 OFFSET 0
+    """
 
-        cursor.execute(sql)
-        registros = cursor.fetchall()
+    cursor.execute(sql)
+    registros = cursor.fetchall()
 
-        # Aquí puedes devolver HTML renderizado o JSON
-        return render_template("tbodyRentas.html", rentas=registros)
+    # Si manejas fechas y horas
+    for registro in registros:
+        inicio = registro["FechaHoraInicio"]
+        fin = registro["FechaHoraFin"]
+            
+        registro["fechaInicio"] = inicio.strftime("%d/%m/%Y")
+        registro["horaInicio"]  = inicio.strftime("%H:%M:%S")
 
-    except Exception as e:
-        print("Error en /tbodyRentas:", e)
-        return make_response(jsonify({"error": str(e)}), 500)
+        registro["fechaFin"]    = fin.strftime("%d/%m/%Y")
+        registro["horaFin"]     = fin.strftime("%H:%M:%S")
 
-    finally:
-        if cursor:
-            cursor.close()
-        if con and con.is_connected():
-            con.close()
+
+    return render_template("tbodyRentas.html", trajes=registros)
 
 @app.route("/rentas/guardar", methods=["POST", "GET"])
 @login
@@ -689,6 +695,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

@@ -220,10 +220,10 @@ def guardarRenta():
     if not con.is_connected():
         con.reconnect()
 
-    id               = request.form["id"]
-    cliente          = request.form["cliente"]
-    traje            = request.form["traje"]
-    descripcion      = request.form["descripcion"]
+    iidRenta         = request.form.get("idRenta")
+    cliente          = request.form.get["cliente"]
+    traje            = request.form.get["traje"]
+    descripcion      = request.form.get["descripcion"]
     fechahorainicio  = datetime.datetime.now(pytz.timezone("America/Matamoros"))
     fechahorafin     = datetime.datetime.now(pytz.timezone("America/Matamoros"))
     # fechahora   = datetime.datetime.now(pytz.timezone("America/Matamoros"))
@@ -718,6 +718,7 @@ def buscarTrajes():
         con.close()
 
     return make_response(jsonify(registros))
+
 
 
 

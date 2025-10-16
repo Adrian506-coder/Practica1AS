@@ -751,6 +751,10 @@ app.controller("clientesCtrl", function ($scope, $http) {
             $("#frmCliente")[0].reset();
             $("#idCliente").val(""); // limpiar campo oculto
             cargarTablaClientes(); 
+
+            const btnGuardar = $("#btnGuardar");
+            btnGuardar.text("Guardar");
+            btnGuardar.removeClass("btn-success").addClass("btn-primary");
         }).fail(function(xhr){
             console.error("Error al guardar/actualizar cliente:", xhr.responseText);
         });
@@ -898,6 +902,7 @@ $("#txtBuscarTrajes").on("keypress", function(e) {
 document.addEventListener("DOMContentLoaded", function (event) {
     activeMenuOption(location.hash)
 })
+
 
 
 
